@@ -4,7 +4,7 @@ This is a .NET-based rules engine for externally defined rules based on C# LINQ 
 
 ### Pre-Alpha - No releases yet. 
 
-#### See [Documentation](https://github.com/boulderkimble/DynamicRules)
+#### See [Documentation](https://boulderkimble.github.io/DynamicRules/)
 
 
 ![VS Extension](docs/docs/imgs/vseditor.gif)
