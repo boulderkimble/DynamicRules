@@ -118,7 +118,7 @@
     );
 </code></pre>
 <p>There are variants of Run that take just an enumeration of objects - no names. <strong>Only use these if all of your inputs are user defined types and you use the type name(s) (e.g. "Auto") in your rule expressions</strong>.</p>
-<p>Asode from inputs, the rules engine must also know about user defined types used in expressions. These are often utility types with static methods. To define these you must use the <code>DynamicLinqType</code> attribute (defined in the <a href="https://github.com/zzzprojects/System.Linq.Dynamic.Core">Dynamic LINQ library</a> which this project depends on).</p>
+<p>Aside from inputs, the rules engine must also know about user defined types used in expressions. These are often utility types with static methods. To define these you must use the <code>DynamicLinqType</code> attribute (defined in the <a href="https://github.com/zzzprojects/System.Linq.Dynamic.Core">Dynamic LINQ library</a> which this project depends on).</p>
 <pre><code>    [DynamicLinqType]
     public static class RiskUtils
     {
