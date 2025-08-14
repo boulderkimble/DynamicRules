@@ -1,0 +1,30 @@
+# Global parameters
+Parameters:
+    # So that this demo will always run the same results from our testdata.json file, we set a fixed date.
+    # In a real-world scenario, you would use DateTime.Now or similar. 
+  - Name: DemoDate
+    Expression: DateTime.Parse("2025-08-01")
+  - Name: IsOldCar
+    Expression: Auto.Age > 10
+  - Name: HasRecentCollision
+    Expression: Auto.CollisionDates.Any(d => d > DemoDate.AddYears(-1))
+Rules:
+  - Id: rule_high_risk
+    Condition: IsOldCar && HasRecentCollision
+    # Here we return a RiskAssessment object which is declared with the DynamicLinqType
+    # attribute in our project. Note we can't use "new RiskAssessment(...)") directly
+    # (see documentation), so we use a static utility method.
+    Then: RiskAssessment.Create(Auto.VIN, "High Risk")
+  - Id: rule_low_risk
+    # boolean ! must be included in quotes because it's a reserved tag in YAML
+    Condition: "!IsOldCar && !HasRecentCollision"
+    # Call a static method that returns a string.
+    Then: "RiskUtils.FlagLowRisk(Auto.Make, Auto.Age)"
+  - Id: rule_critical_risk
+    # This parameter is scoped to the rule_critical_risk rule (and its sub-rules if it had any).
+    Parameters:
+      - Name: RecentCollisionCount
+        Expression: Auto.CollisionDates.Count(d => d > DemoDate.AddYears(-1))
+    Condition: "!IsOldCar && HasRecentCollision"
+    # Return a string directly. 
+    Then: '"Critical Review Needed: VIN:" + Auto.VIN + " Make:" + Auto.Make + " - Recent Collisions: " + RecentCollisionCount'

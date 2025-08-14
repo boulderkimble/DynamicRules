@@ -1,0 +1,36 @@
+{
+  "Parameters": [
+    {
+      "Name": "DemoDate",
+      "Expression": "DateTime.Parse(\"2025-08-01\")"
+    },
+    {
+      "Name": "IsOldCar",
+      "Expression": "Auto.Age > 10"
+    },
+    {
+      "Name": "HasRecentCollision",
+      "Expression": "Auto.CollisionDates.Any(d => d > DemoDate.AddYears(-1))"
+    }
+  ],
+  "Rules": [
+    {
+      "Id": "rule_high_risk",
+      "Condition": "IsOldCar && HasRecentCollision",
+      "Then": "RiskAssessment.Create(Auto.VIN, \"High Risk\")"
+    },
+    {
+      "Id": "rule_low_risk",
+      "Condition": "!IsOldCar && !HasRecentCollision",
+      "Then": "RiskUtils.FlagLowRisk(Auto.Make, Auto.Age)"
+    },
+    {
+      "Id": "rule_critical_risk",
+      "Parameters": [
+        {
+          "Name": "RecentCollisionCount",
+          "Expression": "Auto.CollisionDates.Count(d => d > DemoDate.AddYears(-1))"
+        }
+      ],
+      "Condition": "!IsOldCar && HasRecentCollision",
+      "Then": "\"Critical Review Needed: VIN:\" + Auto.VIN + \" Make:\" + Auto.Make + \" - Recent Collisions: \" + RecentCollisionCount"

@@ -1,0 +1,31 @@
+{
+  "Parameters": [
+    {
+      "Name": "Age",
+      "Expression": "TestItem.Value"
+    }
+  ],
+  "Rules": [
+    {
+      "Id": "rule_positive",
+      "Condition": "TestItem.Value > 0",
+      "Then": "TestItem.Flag.ToString()"
+    },
+    {
+      "Id": "rule_negative",
+      "Condition": "TestItem.Value < 0",
+      "Then": "TestItem.Flag.ToString()"
+    },
+    {
+      "Id": "rule_zero",
+      "Parameters": [
+        {
+          "Name": "Param1",
+          "Expression": "TestItem.Value == 0"
+        }
+      ],
+      "Condition": "TestItem.Value == 0",
+      "Then": "ObjectUtils.Create(\"Name\", TestItem.Value, \"Age\", Param1)"
+    }
+  ]
+}

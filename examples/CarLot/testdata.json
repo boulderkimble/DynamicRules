@@ -1,0 +1,41 @@
+[
+  {
+    "VIN": "1A4AABBC5KD501999",
+    "Make": "Toyota",
+    "Age": 12,
+    "CollisionDates": [
+      "2024-09-01T00:00:00",
+      "2023-08-15T00:00:00"
+    ]
+  },
+  {
+    "VIN": "2B3CA4CD5GH123456",
+    "Make": "Honda",
+    "Age": 5,
+    "CollisionDates": []
+  },
+  {
+    "VIN": "3C6UR5FL1FG987654",
+    "Make": "Ford",
+    "Age": 15,
+    "CollisionDates": [
+      "2022-07-10T00:00:00"
+    ]
+  },
+  {
+    "VIN": "4T1BF1FK5GU123789",
+    "Make": "Toyota",
+    "Age": 8,
+    "CollisionDates": [
+      "2025-01-10T00:00:00",
+      "2024-03-05T00:00:00",
+      "2023-12-25T00:00:00"
+    ]
+  },
+  {
+    "VIN": "5NPE24AF4FH123321",
+    "Make": "Hyundai",
+    "Age": 11,
+    "CollisionDates": []
+  }
+]

@@ -1,0 +1,15 @@
+# Global parameters
+Parameters:
+    # So that this demo will always run the same results from our testdata.json file, we set a fixed date.
+    # In a real-world scenario, you would use DateTime.Now or similar. 
+  - Name: DemoDate
+    Expression: DateTime.Parse("2025-08-01")
+  - Name: IsOldCar
+    Expression: Auto.Age > 10
+  - Name: HasRecentCollision
+    Expression: Collisions.Any(c => c.VIN == Auto.VIN && c.Date > DemoDate.AddYears(-1))
+Rules:
+  - Id: rule_high_risk
+    Condition: IsOldCar && HasRecentCollision
+    Then: '"VIN: " + Auto.VIN + " High Risk"'
+  

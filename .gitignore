@@ -1,0 +1,86 @@
+# C# / .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.pdb
+*.mdb
+*.log
+*.vspscc
+*.vssscc
+*.dbmdl
+*.dbproj.schemaview
+*.pidb
+*.svclog
+*.psess
+*.vsp
+*.vsix
+*.nupkg
+*.snk
+*.psess
+*.vspx
+*.docstates
+*.orig
+TestResult.xml
+TestResults/
+.vs/
+_ReSharper*/
+*.resharper
+*.DotSettings.user
+*.dotCover
+*.coverage
+*.coveragexml
+*.nvuser
+*.sln.docstates
+
+# TypeScript / Node
+node_modules/
+dist/
+out/
+*.tsbuildinfo
+
+# VS Code
+.vscode/
+.history/
+
+# npm
+package-lock.json
+yarn.lock
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Ignore generated files
+*.js.map
+*.js
+*.d.ts
+
+# Ignore temporary files
+*.tmp
+*.temp
+
+# Ignore build output
+build/
+release/
+Release/
+Debug/
+*.exe
+*.dll
+
+# Ignore test coverage
+coverage/
+*.lcov
+
+# Ignore IDE settings
+.idea/
+*.iml
+
+# Ignore documentation output
+site/
+
+# Do NOT ignore config or test files
+!*.json
+!*.yml
+!*.yamlsite/

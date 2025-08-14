@@ -1,0 +1,15 @@
+- Id: rule_positive
+  Condition: "x.Value > 0"
+  Then: "\"Value is positive: \" + x.Value"
+  DependsOn: []
+
+- Id: rule_even
+  Condition: "x.Value % 2 == 0"
+  Then: "\"Value is even: \" + x.Value"
+  DependsOn:
+    - rule_positive
+
+- Id: rule_negative
+  Condition: "x.Value < 0"
+  Then: "\"Value is negative: \" + x.Value"
+  DependsOn: []

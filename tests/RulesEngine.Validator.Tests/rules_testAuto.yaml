@@ -1,0 +1,22 @@
+Parameters:
+  - Name: IsOldCar
+    Expression: Auto.Age > 10
+  - Name: HasRecentCollision
+    Expression: Auto.CollisionDates.Any(d => d > DateTime.Today.AddYears(-1))
+Rules:
+  - Id: rule_high_risk
+    Condition: IsOldCar && HasRecentCollision
+    Then: "RiskUtils.FlagHighRisk(Auto.Make, Auto.Age, Auto.CollisionDates)"
+  - Id: rule_low_risk
+    Condition: "!IsOldCar && !HasRecentCollision"
+    Then: "RiskUtils.FlagLowRisk(Auto.Make, Auto.Age)"
+  - Id: rule_make_specific
+    Condition: Auto.Make == "Toyota" && HasRecentCollision
+    Then: "RiskUtils.FlagReview(Auto.Make, Auto.CollisionDates)"
+    Rules:
+      - Id: rule_collision_count
+        Parameters:
+          - Name: RecentCollisionCount
+            Expression: Auto.CollisionDates.Count(d => d > DateTime.Today.AddYears(-1))
+        Condition: RecentCollisionCount > 2
+        Then: "RiskUtils.FlagCriticalReview(Auto.Make, RecentCollisionCount)"

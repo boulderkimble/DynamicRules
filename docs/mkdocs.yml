@@ -1,0 +1,13 @@
+site_name: Dynamic Rules
+nav:
+  - Home: index.md
+  - Defining Rules: definingrules.md
+  - Using Rules: using.md
+  - Expression "Rules of the Road": expressionrules.md
+  - VS Extension: extension.md
+  - RulesEngine.Core: core.md
+  - Example: example.md
+  - Source Code: https://github.com/boulderkimble/DynamicRules
+  - About: about.md
+
+theme: readthedocs
