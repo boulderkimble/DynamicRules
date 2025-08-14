@@ -14,7 +14,7 @@ The engine must know the names and types of your inputs at runtime. The names mu
 
 There are variants of Run that take just an enumeration of objects - no names. **Only use these if all of your inputs are user defined types and you use the type name(s) (e.g. "Auto") in your rule expressions**.
 
-Asode from inputs, the rules engine must also know about user defined types used in expressions. These are often utility types with static methods. To define these you must use the ```DynamicLinqType``` attribute (defined in the [Dynamic LINQ library](https://github.com/zzzprojects/System.Linq.Dynamic.Core) which this project depends on).
+Aside from inputs, the rules engine must also know about user defined types used in expressions. These are often utility types with static methods. To define these you must use the ```DynamicLinqType``` attribute (defined in the [Dynamic LINQ library](https://github.com/zzzprojects/System.Linq.Dynamic.Core) which this project depends on).
 
 ```
     [DynamicLinqType]
