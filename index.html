@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Dynamic Rules</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Home";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="index.html" class="icon icon-home"> Dynamic Rules
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="definingrules.html">Defining Rules</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="using.html">Using Rules</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="expressionrules.html">Expression "Rules of the Road"</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="extension.html">VS Extension</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="core.html">RulesEngine.Core</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="example.html">Example</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/boulderkimble/DynamicRules">Source Code</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="about.html">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Dynamic Rules</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html" class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Home</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="dynamic-rules-engine">Dynamic Rules Engine</h1>
+<p>.NET-based rules engine for externally defined rules based on C# LINQ expressions. It currently supports rules in YAML or JSON but could be exanded to support other formats.</p>
+<p><strong>No releases yet - this project is in pre-alpha.</strong></p>
+<pre><code># Global parameters
+Parameters:
+  - Name: DemoDate
+    Expression: DateTime.Parse(&quot;2025-08-01&quot;)
+  - Name: IsOldCar
+    Expression: Auto.Age &gt; 10
+  - Name: HasRecentCollision
+    Expression: Collisions.Any(c =&gt; c.VIN == Auto.VIN &amp;&amp; c.Date &gt; DemoDate.AddYears(-1))
+Rules:
+  - Id: rule_high_risk
+    Condition: IsOldCar &amp;&amp; HasRecentCollision
+    Then: '&quot;VIN: &quot; + Auto.VIN + &quot; High Risk&quot;'
+</code></pre>
+<p>The project draws inspiration from Microsoft's <a href="https://microsoft.github.io/RulesEngine">JSON Rules Engine</a>, which similarly relies on C#-based rule definitions. The author created it to meet a specific need for an external DSL with rule dependencies (not easily achievable with the Microsoft project). </p>
+<p>Feature-wise, this engine mirrors many of the capabilites of the Microsoft project, including nested rules, scoped parameters (both local and global), and multiple inputs (concrete or annonyous types). It does not currently support dynamic (expando) inputs. Rules can also be dependent on other rules.</p>
+<p>A word about YAML &amp; JSON. At current writing this project is YAML centric in terms of documentation, samples, and unit tests. The author developed this project with YAML in mind, so at present JSON is a second class citizen.</p>
+<p>The project includes a <a href="extension.html">Visual Studio Code extension</a> that will dynamically parse your JSON or YAML rule expressions and hilite any parsing errors. This tool aids in development of rules providing a means to correct any syntax errors before running your rules in the context of your application. A caveat is it can only be used if you are using the rules engine with non-annonymous inputs.</p>
+<p><img alt="VS Extension" src="imgs/validator2.png" /></p>
+<p><img alt="VS Extension" src="imgs/vseditor.gif" /></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="definingrules.html" class="btn btn-neutral float-right" title="Defining Rules">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href="definingrules.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2025-08-14 19:37:42.980145+00:00
+-->

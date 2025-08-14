@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>RulesEngine.Core - Dynamic Rules</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "RulesEngine.Core";
+        var mkdocs_page_input_path = "core.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="index.html" class="icon icon-home"> Dynamic Rules
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="definingrules.html">Defining Rules</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="using.html">Using Rules</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="expressionrules.html">Expression "Rules of the Road"</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="extension.html">VS Extension</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">RulesEngine.Core</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="example.html">Example</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/boulderkimble/DynamicRules">Source Code</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="about.html">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Dynamic Rules</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html" class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">RulesEngine.Core</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="rulesenginecore">RulesEngine.Core</h1>
+<p>Aside from externally defined rules in JSON/YAML, this project exposes a C# rules engine that powers the dynamic rule processiing. The dynamic rule processor builds a set of <em>RulesEngine.Core.Rule</em> rules internally, but the core interface can be used on its own for rules defined in code.</p>
+<p>If you're looking for a .NET rules engine focused purely on C#, <a href="https://nrules.net">nRules</a> might be the better choice. On the other hand it has a simple fluent interface and might be suitable depending on your requirements.</p>
+<p>Not much documentation to offer at this time. Here is an example:</p>
+<pre><code>using RulesEngine.Core;
+.
+.
+var isOldCarRule = new Rule(&quot;IsOldCar&quot;)
+    .When((rule, parameters) =&gt;
+    {
+        var auto = parameters[&quot;Auto&quot;] as Auto;
+        return auto != null &amp;&amp; auto.Age &gt; 10;
+    })
+    .Then((rule, parameters, id) =&gt; $&quot;Auto {((Auto)parameters[&quot;Auto&quot;]).VIN} is old.&quot;);
+
+var hasRecentCollisionRule = new Rule(&quot;HasRecentCollision&quot;)
+    .When((rule, parameters) =&gt;
+    {
+        var auto = parameters[&quot;Auto&quot;] as Auto;
+        if (auto == null) return false;
+        var oneYearAgo = DateTime.Now.AddYears(-1);
+        return auto.CollisionDates.Exists(d =&gt; d &gt; oneYearAgo);
+    })
+    .Then((rule, parameters, id) =&gt; $&quot;Auto {((Auto)parameters[&quot;Auto&quot;]).VIN} has a recent collision.&quot;);
+
+var highRiskRule = new Rule(&quot;HighRisk&quot;)
+    .When((rule, parameters) =&gt;
+        parameters.TryGetValue(&quot;IsOldCar&quot;, out var isOld) &amp;&amp; (bool)isOld &amp;&amp;
+        parameters.TryGetValue(&quot;HasRecentCollision&quot;, out var hasRecent) &amp;&amp; (bool)hasRecent)
+    .DependsOn(&quot;IsOldCar&quot;, &quot;HasRecentCollision&quot;)
+    .Then((rule, parameters, id) =&gt; $&quot;Auto {((Auto)parameters[&quot;Auto&quot;]).VIN} is high risk!&quot;);
+
+// Add rules to the engine
+var engine = new RulesEngineCore(new[] { isOldCarRule, hasRecentCollisionRule, highRiskRule });
+
+// Example input
+var auto = new Auto
+{
+    VIN = &quot;123ABC&quot;,
+    Age = 12,
+    CollisionDates = new List&lt;DateTime&gt; { DateTime.Now.AddMonths(-6) }
+};
+
+// Run the engine
+var errors = engine.Run((&quot;Auto&quot;, auto));
+
+// Output results
+if (errors.Count == 0)
+{
+    Console.WriteLine(&quot;All rules passed!&quot;);
+    foreach (var artifact in engine.Artifacts)
+        Console.WriteLine($&quot;Artifact: {artifact.Value}&quot;);
+}
+else
+{
+    Console.WriteLine(&quot;Errors:&quot;);
+    foreach (var error in errors)
+        Console.WriteLine(error);
+}
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="extension.html" class="btn btn-neutral float-left" title="VS Extension"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="example.html" class="btn btn-neutral float-right" title="Example">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="extension.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="example.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

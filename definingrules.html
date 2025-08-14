@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Defining Rules - Dynamic Rules</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Defining Rules";
+        var mkdocs_page_input_path = "definingrules.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="index.html" class="icon icon-home"> Dynamic Rules
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Defining Rules</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#rules-anatomy">Rules Anatomy</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#parameters-name-expression">Parameters -&gt; (Name, Expression)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#rules-id-condition-then-parameters-dependson-operator-rules">Rules -&gt; (Id, Condition, Then, Parameters, DependsOn, Operator, Rules)</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#id">Id</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#condition">Condition</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#then">Then</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#parameters-name-expression_1">Parameters -&gt; (Name, Expression)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#dependson">DependsOn</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#rules">Rules</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="using.html">Using Rules</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="expressionrules.html">Expression "Rules of the Road"</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="extension.html">VS Extension</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="core.html">RulesEngine.Core</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="example.html">Example</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/boulderkimble/DynamicRules">Source Code</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="about.html">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Dynamic Rules</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html" class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Defining Rules</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="defining-rules">Defining Rules</h1>
+<pre><code># Global parameters
+Parameters:
+  - Name: DemoDate
+    Expression: DateTime.Now
+  - Name: IsOldCar
+    Expression: Auto.Age &gt; 10
+  - Name: HasRecentCollision
+    Expression: Collisions.Any(c =&gt; c.VIN == Auto.VIN &amp;&amp; c.Date &gt; DemoDate.AddYears(-1))
+Rules:
+  - Id: rule_low_risk
+    # Note expressions with boolean ! must be included in quotes because it's a reserved tag in YAML
+    Condition: &quot;!IsOldCar &amp;&amp; !HasRecentCollision&quot;
+  - Id: rule_high_risk
+    Condition: IsOldCar &amp;&amp; HasRecentCollision
+    Then: '&quot;VIN: &quot; + Auto.VIN + &quot; High Risk&quot;'
+  - Id: rule_requires_high_risk
+    DependsOn: [rule_high_risk]
+    Condition: true
+    Then: '&quot;This rule only runs if rule_high_risk succeeds.&quot;'
+</code></pre>
+<h2 id="rules-anatomy">Rules Anatomy</h2>
+<p>Dynamic Rules are defined by the object definitions in RulesEngine.Dynamic/Models. A set of YAML or JSON rules is simply a serialization of the <em>DynamicRules</em> C# type:</p>
+<pre><code>public class DynamicRules
+{
+    public virtual List&lt;DynamicRuleParameter&gt; Parameters { get; set; } = [];
+    public virtual List&lt;DynamicRule&gt; Rules { get; set; } = [];
+}
+</code></pre>
+<p>Let's review each feature with YAML.</p>
+<h3 id="parameters-name-expression">Parameters -&gt; (Name, Expression)</h3>
+<p>Global parameters are in scope by all rules and sub-rules. These must be at the top of your rule definitions. Name identifies the parameter. Expression is the C# that the parameter evaulates to. Use the name to refer to the parameter in other expressions. </p>
+<pre><code>Parameters:
+  - Name: IsOldCar
+    Expression: Auto.Age &gt; 10
+  - Name: HasRecentCollision
+    Expression: Auto.CollisionDates.Any(d =&gt; d &gt; DemoDate.AddYears(-1))
+</code></pre>
+<h3 id="rules-id-condition-then-parameters-dependson-operator-rules">Rules -&gt; (Id, Condition, Then, Parameters, DependsOn, Operator, Rules)</h3>
+<h5 id="id">Id</h5>
+<p>Unique name of rule</p>
+<h5 id="condition">Condition</h5>
+<p>C# expression that evaluates to a boolean</p>
+<h5 id="then">Then</h5>
+<p>C# expression that evaluates to an object added to an artifact if Condition is satisfied. Note the rules engine always generates an artifact for a succussful rule and artifacts can be accessed from code. The <em>Then</em> expression only adds an object to the artifact. See <a href="using.html">Using Rules</a> for details. </p>
+<pre><code>Rules:
+  - Id: rule_high_risk
+    Condition: IsOldCar &amp;&amp; HasRecentCollision
+    Then: '&quot;High Risk: VIN &quot; + Auto.VIN'
+  - Id: rule_low_risk
+    Condition: &quot;!IsOldCar &amp;&amp; !HasRecentCollision&quot;
+    Then: &quot;RiskUtils.FlagLowRisk(Auto.Make, Auto.Age)&quot;
+</code></pre>
+<h4 id="parameters-name-expression_1">Parameters -&gt; (Name, Expression)</h4>
+<p>Rule scoped parameters. Name should be unique for the given rule. If it matches a global parameter, it overrides the global value. </p>
+<pre><code>- Id: rule_critical_risk
+    Parameters:
+      - Name: RecentCollisionCount
+        Expression: Auto.CollisionDates.Count(d =&gt; d &gt; DemoDate.AddYears(-1))
+    Condition: &quot;!IsOldCar &amp;&amp; HasRecentCollision&quot;
+    Then: '&quot;Critical Review Needed: VIN:&quot; + Auto.VIN + &quot; Make:&quot; + Auto.Make + &quot; - Recent Collisions: &quot; + RecentCollisionCount'
+</code></pre>
+<h4 id="dependson">DependsOn</h4>
+<p>Value is an array of rule IDs that must all evaluate to true before this rule is evaluated. Rule IDs can reference other rules or sub-rules (including those from the same or different rule groups). The rules engine will throw an exception if a circular dependency is detected.</p>
+<pre><code>- Id: rule_high_risk_toyota
+    DependsOn: [rule_high_risk]
+    Condition: Auto.Make == &quot;Toyota&quot;
+    Then: '&quot;This rule only runs if Toyota and rule_high_risk succeeds.&quot;'
+</code></pre>
+<h4 id="rules">Rules</h4>
+<p>Subrules are nested rules within a parent rule. By default, all subrules must evaluate to true for the parent rule to succeed. </p>
+<pre><code>Rules:
+  - Id: main_rule
+    Rules: 
+      - Id: sub_rule_1
+</code></pre>
+<p>You can control how subrules are combined by specifying the optional Operator parameter, which accepts 'AND' (default) or 'OR':</p>
+<pre><code>Rules:
+  - Id: main_rule
+    Operator: OR
+    Rules: 
+      - Id: sub_rule_1
+      - Id: sub_rule_2
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="index.html" class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="using.html" class="btn btn-neutral float-right" title="Using Rules">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="index.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="using.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

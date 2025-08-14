@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>VS Extension - Dynamic Rules</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "VS Extension";
+        var mkdocs_page_input_path = "extension.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="index.html" class="icon icon-home"> Dynamic Rules
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="definingrules.html">Defining Rules</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="using.html">Using Rules</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="expressionrules.html">Expression "Rules of the Road"</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">VS Extension</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="core.html">RulesEngine.Core</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="example.html">Example</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/boulderkimble/DynamicRules">Source Code</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="about.html">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Dynamic Rules</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html" class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">VS Extension</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="visual-studio-code-rule-editing-extension">Visual Studio Code Rule Editing Extension</h1>
+<p>To use, configure the extension to load one or more assemblies containing objects marked with specific attributes to tell the extension parser about your rule inputs and parameter types.</p>
+<pre><code>{
+    &quot;rulevalidator.assemblyPaths&quot;: &quot;C:\\YamlValidatorTest\\bin\\Debug\\net8.0\\YamlValidatorTest.dll&quot;
+    &quot;rulevalidator.fileNamePattern&quot;: &quot;rules_.*\\.(yaml|json)$&quot;
+}
+</code></pre>
+<p><em>assemblyPaths</em> (comman delineated) must define assemblies (typically 1) with: </p>
+<ol>
+<li>
+<p>Input types defined by a static class marked with the <code>VSExtensionConfig</code> attribute.</p>
+<ul>
+<li>Apply this attribute to a static class.</li>
+<li>
+<p>Implement the following method:</p>
+<p><code>public static IEnumerable&lt;(string, Type)&gt; ReturnInputMappings()</code></p>
+</li>
+<li>
+<p>The method must yield all input parameter names and types used with your rules engine.</p>
+</li>
+<li>The order does not matter.</li>
+</ul>
+</li>
+<li>
+<p>Other classes marked with <code>DynamicLinqType</code>. As <a href="using.html">discussed</a>, this type defines additional types referenced in your rules and it is needed by the rules engine itself as well as the extension.</p>
+</li>
+</ol>
+<pre><code>    // Note if you don't use the VS extension, you don't need this.
+    [VSExtensionConfig]
+    public static class MyRulesInputMapping
+    {
+        public static IEnumerable&lt;(string? Name, Type? Type)&gt; ReturnInputMapForExtension()
+        {
+            yield return (&quot;Auto&quot;, typeof(Auto));
+            yield return (&quot;Collisions&quot;, typeof(DbSet&lt;Collision&gt;));
+        }
+    }
+
+    // These are types referenced by the rules engine typically in parameter expressions 
+    // or Then expressions to provide processing utility or define a returned object type.
+    // This is required by both the rules engine as well as the VS code extension. The attribute
+    // is defined in the Dynamic Rules package used by the rules library.
+    [DynamicLinqType]
+    public static class DateUtils
+    {
+        public static int Age(DateTime birthdate)
+        {
+            var today = DateTime.Today;
+            int age = today.Year - birthdate.Year;
+            if (birthdate &gt; today.AddYears(-age)) age--;
+            return age;
+        }
+    }
+
+</code></pre>
+<h1 id="installing">Installing</h1>
+<p>Coming...</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="expressionrules.html" class="btn btn-neutral float-left" title="Expression "Rules of the Road""><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="core.html" class="btn btn-neutral float-right" title="RulesEngine.Core">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="expressionrules.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="core.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

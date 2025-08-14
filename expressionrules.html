@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Expression "Rules of the Road" - Dynamic Rules</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Expression \"Rules of the Road\"";
+        var mkdocs_page_input_path = "expressionrules.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="index.html" class="icon icon-home"> Dynamic Rules
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="definingrules.html">Defining Rules</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="using.html">Using Rules</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Expression "Rules of the Road"</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#expressions-with-new">Expressions with 'new'</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#anonymous-types-inputs">Anonymous Types &amp; Inputs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#string-interpolation">String Interpolation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#data-modification">Data Modification</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="extension.html">VS Extension</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="core.html">RulesEngine.Core</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="example.html">Example</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/boulderkimble/DynamicRules">Source Code</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="about.html">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Dynamic Rules</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html" class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Expression "Rules of the Road"</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="expression-rules-of-the-road">Expression "Rules of the Road"</h1>
+<p>Dynamic Rules uses zzzproject's <a href="https://github.com/zzzprojects/System.Linq.Dynamic.Core">Dynamic Linq library</a> to parse C# expressions into expression trees. There are some particular abilities and limitations to be aware of.</p>
+<h3 id="expressions-with-new">Expressions with 'new'</h3>
+<p>In <em>Then</em> or parameter expressions, you cannot use new to produce a typed object - instead use a static utility class.</p>
+<p>Use:</p>
+<pre><code>Then: RiskAssessment.Create(Auto.VIN, &quot;High Risk&quot;)
+</code></pre>
+<p>instead of:</p>
+<pre><code>Then: new RiskAssessment(Auto.VIN, &quot;High Risk&quot;)
+</code></pre>
+<p>You need to be mindful of this when using primitive types like DateTime. So istead of:</p>
+<pre><code>Expression: new System.DateTime(2025, 8, 1)
+</code></pre>
+<p>use:</p>
+<pre><code>Expression: DateTime.Parse(&quot;2025-08-01&quot;)
+</code></pre>
+<p>However new can be used to return an annonymous object as long as (1) no labels specified and (2) no object initializers the parser can't infer the type from. In practical terms that means rule input object parameters, primitive .NET types, and types you've declared with the <code>[DynamicLinqType]</code> attribute.</p>
+<pre><code>Then: &quot;new { Auto.Make, Auto.Year }&quot;
+</code></pre>
+<h3 id="anonymous-types-inputs">Anonymous Types &amp; Inputs</h3>
+<p>Inputs can be annoymous types (with or without labels). </p>
+<p>For annonymous inputs you must use the core engine API's (Run(), RunAsync()) that take a dictionary or name value pairs as input because names must be specified matching your YAML/JSON epxressions. The Run() variants wich accept just an enumation of objects will default the paramter names from the type names (which won't be usable in your rule expressions).</p>
+<p>Additionally the VS Code extension won't be able to parse and report errors if your code leverages annomyous inputs.</p>
+<h3 id="string-interpolation">String Interpolation</h3>
+<p>C# sting interpolation is not supported in an expression.</p>
+<h3 id="data-modification">Data Modification</h3>
+<p>In a rule expression, you can project (select, transform, or create new objects/values from) the input data,
+but you cannot modify the original input objects or their properties.</p>
+<p>Allowed:</p>
+<pre><code>Then: &quot;Auto.Make&quot; 
+</code></pre>
+<p>Not Allowed:</p>
+<pre><code>Then: &quot;Auto.Age = 20&quot; 
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="using.html" class="btn btn-neutral float-left" title="Using Rules"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="extension.html" class="btn btn-neutral float-right" title="VS Extension">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="using.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="extension.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
