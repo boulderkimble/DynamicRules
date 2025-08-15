@@ -59,14 +59,14 @@
                 <li class="toctree-l1"><a class="reference internal" href="extension.html">VS Extension</a>
                 </li>
               </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="core.html">RulesEngine.Core</a>
-                </li>
-              </ul>
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Example</a>
     <ul class="current">
     </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="core.html">RulesEngine.Core</a>
                 </li>
               </ul>
               <ul>
@@ -101,7 +101,7 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="example">Example</h1>
-<p>See the examples folder for more examples.</p>
+<p>See the examples folder in the source repository.</p>
 <pre><code>
 # Global parameters
 Parameters:
@@ -118,8 +118,8 @@ Rules:
     Condition: IsOldCar &amp;&amp; HasRecentCollision
     Then: '&quot;VIN: &quot; + Auto.VIN + &quot; High Risk&quot;'
 
---------------------------------------------
-[DynamicLinqType]
+</code></pre>
+<pre><code>[DynamicLinqType]
 public class CarLotContext : DbContext
 {
     public DbSet&lt;Auto&gt; Autos { get; set; }
@@ -179,8 +179,8 @@ foreach (var auto in context.Autos)
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="core.html" class="btn btn-neutral float-left" title="RulesEngine.Core"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="about.html" class="btn btn-neutral float-right" title="About">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="extension.html" class="btn btn-neutral float-left" title="VS Extension"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="core.html" class="btn btn-neutral float-right" title="RulesEngine.Core">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -203,10 +203,10 @@ foreach (var auto in context.Autos)
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="core.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="extension.html" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="about.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="core.html" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
