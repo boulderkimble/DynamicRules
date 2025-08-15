@@ -1,7 +1,6 @@
 # Example
 
-See the examples folder for more examples.
-
+See the examples folder in the source repository.
 ```
 
 # Global parameters
@@ -19,7 +18,8 @@ Rules:
     Condition: IsOldCar && HasRecentCollision
     Then: '"VIN: " + Auto.VIN + " High Risk"'
 
---------------------------------------------
+```
+```
 [DynamicLinqType]
 public class CarLotContext : DbContext
 {

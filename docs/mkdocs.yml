@@ -5,8 +5,8 @@ nav:
   - Using Rules: using.md
   - Expression "Rules of the Road": expressionrules.md
   - VS Extension: extension.md
-  - RulesEngine.Core: core.md
   - Example: example.md
+  - RulesEngine.Core: core.md
   - Source Code: https://github.com/boulderkimble/DynamicRules
   - About: about.md
 

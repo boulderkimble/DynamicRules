@@ -2,8 +2,6 @@
 
 .NET-based rules engine for externally defined rules based on C# LINQ expressions. It currently supports rules in YAML or JSON but could be exanded to support other formats.
 
-**No releases yet - this project is in pre-alpha.**
-
 ```
 # Global parameters
 Parameters:
