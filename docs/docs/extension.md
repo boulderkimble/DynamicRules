@@ -27,7 +27,7 @@ _assemblyPaths_ (comman delineated) must define assemblies (typically 1) with:
     [VSExtensionConfig]
     public static class MyRulesInputMapping
     {
-        public static IEnumerable<(string? Name, Type? Type)> ReturnInputMapForExtension()
+        public static IEnumerable<(string? Name, Type? Type)> ReturnInputMappings()
         {
             yield return ("Auto", typeof(Auto));
             yield return ("Collisions", typeof(DbSet<Collision>));

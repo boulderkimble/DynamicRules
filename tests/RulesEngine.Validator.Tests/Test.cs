@@ -7,7 +7,7 @@ namespace RulesEngine.Yaml.Tests;
 public class YamlValidatorTests
 {
   private string ValidatorExe => Path.GetFullPath(
-      Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "src", "RuleVSExtension", "cli", "Release", "net8.0", "RuleValidator.exe"));
+      Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..","..","src", "RuleVSExtension", "cli", "Debug", "net8.0", "RuleValidator.exe"));
 
   private string WriteTempFile(string content, string ext = "yaml")
   {
@@ -23,20 +23,18 @@ public class YamlValidatorTests
     var yaml = @"  
 Parameters:
   - Name: Param1
-    Expression: TestItems.Flag 
+    Expression: TestItem.Flag 
 Rules:
   - Id: rule_positive  
   - Parameters:
       - Name: InnerParam1
-        Expression: Param1 < 10
-      - Name: InnerParam2
-        Expression: InnerParam1 == true
-    Condition: TestItem.Value > 0 && Param1 == 10
+        Expression: Param1 == true
+    Condition: TestItem.Value > 0 && InnerParam1
     Then: TestItem.Flag.ToString()
 ";
     var yamlPath = WriteTempFile(yaml);
 
-    var assemblyPath = Path.Combine(AppContext.BaseDirectory, "YamlValidatorTest.dll");
+    var assemblyPath = Path.Combine(AppContext.BaseDirectory, "ValidatorTest.dll");
 
     // Act  
     var psi = new ProcessStartInfo(ValidatorExe, $"\"{yamlPath}\" \"{assemblyPath}\"")

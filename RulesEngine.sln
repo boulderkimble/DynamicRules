@@ -18,11 +18,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RulesEngine.YAML.Tests", "tests\RulesEngine.YAML.Tests\RulesEngine.YAML.Tests.csproj", "{63610084-22F6-41A8-98DB-9C0CB5C45926}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{5D20AA90-6969-D8BD-9DCD-8634F4692FDA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{5D20AA90-6969-D8BD-9DCD-8634F4692FDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarLot", "samples\CarLot\CarLot.csproj", "{A1102772-E21B-4CF3-9365-9D3B0037CF58}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarLot", "examples\CarLot\CarLot.csproj", "{A1102772-E21B-4CF3-9365-9D3B0037CF58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarLotDB", "samples\CarLotDB\CarLotDB.csproj", "{5EA98F4A-937E-4113-B71C-EE873DA47C7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarLotDB", "examples\CarLotDB\CarLotDB.csproj", "{5EA98F4A-937E-4113-B71C-EE873DA47C7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

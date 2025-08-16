@@ -1,5 +1,6 @@
 ﻿using System.Linq.Dynamic.Core.CustomTypeProviders;
 using RulesEngine.Core;
+using RulesEngine.Dynamic;
 
 namespace YamlValidatorTest
 {
@@ -16,6 +17,15 @@ namespace YamlValidatorTest
         public List<DateTime> CollisionDates { get; set; } = new();
     }
 
+    [VSExtensionConfig]
+    public static class InputMappingForExtension
+    {
+        public static IEnumerable<(string, Type)> ReturnInputMappings()
+        {
+            yield return ("Auto", typeof(Auto));
+            yield return ("TestItem", typeof(TestItem));
+        }
+    }
 
     [DynamicLinqType]
     public static class TestDateUtils
@@ -28,28 +38,5 @@ namespace YamlValidatorTest
             return age;
         }
     }
-    
-    [DynamicLinqType]
-    public static class RiskUtils
-    {
-        public static string FlagHighRisk(string make, int age, List<DateTime> collisionDates)
-        {
-            return $"High risk: {make}, Age: {age}, Collisions: {collisionDates.Count}";
-        }
 
-        public static string FlagLowRisk(string make, int age)
-        {
-            return $"Low risk: {make}, Age: {age}";
-        }
-
-        public static string FlagReview(string make, List<DateTime> collisionDates)
-        {
-            return $"Review needed: {make}, Recent collisions: {collisionDates.Count}";
-        }
-
-        public static string FlagCriticalReview(string make, int recentCollisionCount)
-        {
-            return $"Critical review: {make}, Recent collisions: {recentCollisionCount}";
-        }
-    }
 }

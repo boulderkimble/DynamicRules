@@ -40,12 +40,12 @@ class Program
                             t.IsClass &&
                             t.IsAbstract && t.IsSealed && // static class
                             t.GetCustomAttributes(typeof(VSExtensionConfigAttribute), false).Any() && // has attribute
-                            t.GetMethod("ReturnInputMapForExtension", BindingFlags.Public | BindingFlags.Static) != null
+                            t.GetMethod("ReturnInputMappings", BindingFlags.Public | BindingFlags.Static) != null
                         );
 
                     if (inputMapType != null)
                     {
-                        var method = inputMapType.GetMethod("ReturnInputMapForExtension", BindingFlags.Public | BindingFlags.Static);
+                        var method = inputMapType.GetMethod("ReturnInputMappings", BindingFlags.Public | BindingFlags.Static);
                         var result = method?.Invoke(null, null) as IEnumerable<(string?, Type)>;
                         if (result != null)
                         {

@@ -28,7 +28,7 @@ namespace CarLotDB
     [VSExtensionConfig]
     public static class CarlotVSExtensionMappings
     {
-        public static IEnumerable<(string? Name, Type? Type)> ReturnInputMapForExtension()
+        public static IEnumerable<(string? Name, Type? Type)> ReturnInputMappings()
         {
             yield return ("Auto", typeof(Auto));
             yield return ("Collisions", typeof(DbSet<Collision>));

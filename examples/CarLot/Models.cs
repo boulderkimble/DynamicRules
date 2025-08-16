@@ -21,7 +21,7 @@ namespace CarLot
     [VSExtensionConfig]
     public static class CarlotVSExtensionMappings
     {
-        public static IEnumerable<(string? Name, Type? Type)> ReturnInputMapForExtension()
+        public static IEnumerable<(string? Name, Type? Type)> ReturnInputMappings()
         {
             // null here means use the type's short name - i.e. "Auto"
             // For primitive and generic types, always specify an explicit name
