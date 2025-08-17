@@ -131,7 +131,7 @@
     [VSExtensionConfig]
     public static class MyRulesInputMapping
     {
-        public static IEnumerable&lt;(string? Name, Type? Type)&gt; ReturnInputMapForExtension()
+        public static IEnumerable&lt;(string? Name, Type? Type)&gt; ReturnInputMappings()
         {
             yield return (&quot;Auto&quot;, typeof(Auto));
             yield return (&quot;Collisions&quot;, typeof(DbSet&lt;Collision&gt;));

@@ -116,8 +116,8 @@ Rules:
     Then: '&quot;VIN: &quot; + Auto.VIN + &quot; High Risk&quot;'
 </code></pre>
 <p>The project draws inspiration from Microsoft's <a href="https://microsoft.github.io/RulesEngine">JSON Rules Engine</a>, which similarly relies on C#-based rule definitions. The author created it to meet a specific need for an external DSL with rule dependencies (not easily achievable with the Microsoft project). </p>
-<p>Feature-wise, this engine mirrors many of the capabilites of the Microsoft project, including nested rules, scoped parameters (both local and global), and multiple inputs (concrete or annonyous types). It does not currently support dynamic (expando) inputs. Rules can also be dependent on other rules.</p>
-<p>A word about YAML &amp; JSON. At current writing this project is YAML centric in terms of documentation, samples, and unit tests. The author developed this project with YAML in mind, so at present JSON is a second class citizen.</p>
+<p>Feature-wise, this engine has several of the features of the Microsoft project, including nested rules, scoped parameters (both local and global), and multiple inputs (concrete or annonyous types). Rules can also be dependent on other rules. </p>
+<p>A word about YAML &amp; JSON. At current writing this project is YAML centric in terms of documentation, samples, and unit tests. More JSON specific examples and documentation is planned.</p>
 <p>The project includes a <a href="extension.html">Visual Studio Code extension</a> that will dynamically parse your JSON or YAML rule expressions and hilite any parsing errors. This tool aids in development of rules providing a means to correct any syntax errors before running your rules in the context of your application. A caveat is it can only be used if you are using the rules engine with non-annonymous inputs.</p>
 <p><img alt="VS Extension" src="imgs/validator2.png" /></p>
 <p><img alt="VS Extension" src="imgs/vseditor.gif" /></p>
@@ -169,5 +169,5 @@ Rules:
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2025-08-15 04:10:36.976343+00:00
+Build Date UTC : 2025-08-17 23:03:44.588908+00:00
 -->
